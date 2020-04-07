@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace OOP_1
 {
-    public abstract class Figura
+    public abstract class Figura : object
     {
-        public string x1 { get; set; }
-        public string x2 { get; set; }
-        public string y1 { get; set; }
-        public string y2 { get; set; }
-
+        public abstract int Draw(PictureBox picture);
     }
 }

@@ -14,7 +14,8 @@ namespace OOP_1
     public partial class Form1 : Form
     {
         ObjList olist = new ObjList();
-        Color color = new Color();
+        Color intcolor = new Color();
+        Color extcolor = new Color();
         public Form1()
         {
             InitializeComponent();
@@ -22,39 +23,27 @@ namespace OOP_1
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            switch (this.cmb1.SelectedItem)
+            int[] dots = new int[16];
+            dots[1] = Convert.ToInt32(textX1.Text);
+            dots[2] = Convert.ToInt32(textY1.Text);
+            dots[3] = Convert.ToInt32(textX2.Text);
+            dots[4] = Convert.ToInt32(textY2.Text);
+
+            String tmp = "OOP_1." + this.cmb1.SelectedItem;
+            Type mytype = Type.GetType(tmp, false, true);
+
+            if (mytype != null)
             {
-                case "Line":
-                    Line line = new Line();
-                    line.x1 = textX1.Text;
-                    line.x2 = textX2.Text;
-                    line.y1 = textY1.Text;
-                    line.y2 = textY2.Text;
-                    olist.list.Add(line);
-                    line = null;
-                    break;
-                case "Rectangle":
-                    Rectangle rect = new Rectangle();
-                    rect.x1 = textX1.Text;
-                    rect.x2 = textX2.Text;
-                    rect.y1 = textY1.Text;
-                    rect.y2 = textY2.Text;
-                    rect.clr = color;
-                    olist.list.Add(rect);
-                    rect = null;
-                    break;
-                case "Ellipse":
-                    Ellipse ell = new Ellipse();
-                    ell.x1 = textX1.Text;
-                    ell.x2 = textX2.Text;
-                    ell.y1 = textY1.Text;
-                    ell.y2 = textY2.Text;
-                    ell.clr = color;
-                    olist.list.Add(ell);
-                    ell = null;
-                    break;
-                default:
-                    break;
+                //получаем конструктор
+                System.Reflection.ConstructorInfo ci = mytype.GetConstructor(new Type[] { typeof(int[]), typeof(Color), typeof(Color) });
+
+                //вызываем конструтор
+                object obj = ci.Invoke(new object[] { dots, intcolor, extcolor });
+                olist.list.Add((Figura)obj);
+            }
+            else
+            {
+                Console.WriteLine("Класс не найден");
             }
         }
 
@@ -62,23 +51,12 @@ namespace OOP_1
         {
             foreach (object o in olist.list)
             {
-                if (o is Line)
+                Figura tmp = (Figura)o;
+                if (tmp.Draw(picture) == 1)
                 {
-                    Line tmp = (Line)o;
-                    tmp.Draw(picture);
-                }
-                if (o is Rectangle)
-                {
-                    Rectangle tmp = (Rectangle)o;
-                    tmp.Draw(picture, tmp.clr);
-                }
-                if (o is Ellipse)
-                {
-                    Ellipse tmp = (Ellipse)o;
-                    tmp.Draw(picture, tmp.clr);
-                }
-            }
-                        
+                    MessageBox.Show("Failed to draw");
+                }           
+            }       
         }
 
         public struct Item
@@ -101,8 +79,17 @@ namespace OOP_1
         {
             if (colorDialog1.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
             {
-                color = colorDialog1.Color;
-                textBox1.BackColor = color;
+                intcolor = colorDialog1.Color;
+                textBox1.BackColor = intcolor;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (colorDialog2.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
+            {
+                extcolor = colorDialog2.Color;
+                textBox2.BackColor = extcolor;
             }
         }
     }

@@ -8,19 +8,36 @@ using System.Windows.Forms;
 
 namespace OOP_1
 {
+
     public class Ellipse : Figura
     {
-        public Color clr { get; set; }
-        public void Draw(PictureBox picture, Color color)
+        public int[] dots;
+        public Color internclr { get; set; }
+        public Color externclr { get; set; }
+        public override int Draw(PictureBox picture)
         {
-            Graphics graph = picture.CreateGraphics();
-            Pen pen = new Pen(Color.Black);
-            SolidBrush brush = new SolidBrush(color);
-            graph.DrawEllipse(pen, Convert.ToInt32(x1), Convert.ToInt32(y1), Convert.ToInt32(x2) - Convert.ToInt32(x1), Convert.ToInt32(y2) - Convert.ToInt32(y1));
-            graph.FillEllipse(brush, Convert.ToInt32(x1), Convert.ToInt32(y1), Convert.ToInt32(x2) - Convert.ToInt32(x1), Convert.ToInt32(y2) - Convert.ToInt32(y1));
-            graph.Dispose();
-            pen.Dispose();
-            brush.Dispose();
+            try
+            {
+                Graphics graph = picture.CreateGraphics();
+                Pen pen = new Pen(externclr);
+                SolidBrush brush = new SolidBrush(internclr);
+                graph.DrawEllipse(pen, dots[1], dots[2], dots[3] - dots[1], dots[4] - dots[2]);
+                graph.FillEllipse(brush, dots[1], dots[2], dots[3] - dots[1], dots[4] - dots[2]);
+                graph.Dispose();
+                pen.Dispose();
+                brush.Dispose();
+                return 0;
+            }
+            catch
+            {
+                return 1;
+            }
+        }
+        public Ellipse(int[] coords, Color intclr, Color extclr)
+        {
+            dots = coords;
+            externclr = extclr;
+            internclr = intclr;
         }
     }
 }

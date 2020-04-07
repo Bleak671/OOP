@@ -10,13 +10,29 @@ namespace OOP_1
 {
     public class Line : Figura
     {
-        public void Draw(PictureBox picture)
+        public int[] dots;
+        public Color externclr { get; set; }
+        public override int Draw(PictureBox picture)
         {
-            Graphics graph = picture.CreateGraphics();
-            Pen pen = new Pen(Color.Black);
-            graph.DrawLine(pen, Convert.ToInt32(x1), Convert.ToInt32(y1), Convert.ToInt32(x2), Convert.ToInt32(y2));
-            graph.Dispose();
-            pen.Dispose();
+            try
+            {
+                Graphics graph = picture.CreateGraphics();
+                Pen pen = new Pen(externclr);
+                graph.DrawLine(pen, dots[1], dots[2], dots[3], dots[4]);
+                graph.Dispose();
+                pen.Dispose();
+                return 0;
+            }
+            catch
+            {
+                return 1;
+            }
+        }
+
+        public Line(int[] coords, Color intclr, Color extclr)
+        {
+            dots = coords;
+            externclr = extclr;
         }
     }
 }

@@ -9,6 +9,6 @@ namespace OOP_1
 {
     public class ObjList
     {
-        public ArrayList list = new ArrayList();
+        public List<Figura> list = new List<Figura>();
     }
 }
