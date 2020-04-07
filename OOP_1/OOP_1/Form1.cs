@@ -43,7 +43,7 @@ namespace OOP_1
             }
             else
             {
-                Console.WriteLine("Класс не найден");
+                MessageBox.Show("Object not found");
             }
         }
 
