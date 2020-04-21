@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 using System.Windows.Forms;
+using System.Collections;
+using System.Reflection;
+using System.IO;
+
 
 namespace OOP_1
 {
-
-    public class Ellipse : Figura
+    [Serializable]
+    public class Triangle : Figura
     {
         public int[] dots;
         public Color internclr { get; set; }
@@ -18,11 +24,15 @@ namespace OOP_1
         {
             try
             {
+                Point[] arr = new Point[3];
+                arr[0] = new Point(dots[0],dots[1]);
+                arr[1] = new Point(dots[2], dots[3]);
+                arr[2] = new Point(dots[4], dots[5]);
                 Graphics graph = picture.CreateGraphics();
                 Pen pen = new Pen(externclr);
                 SolidBrush brush = new SolidBrush(internclr);
-                graph.DrawEllipse(pen, dots[0], dots[1], dots[2] - dots[0], dots[3] - dots[1]);
-                graph.FillEllipse(brush, dots[0], dots[1], dots[2] - dots[0], dots[3] - dots[1]);
+                graph.DrawPolygon(pen, arr);
+                graph.FillPolygon(brush, arr);
                 graph.Dispose();
                 pen.Dispose();
                 brush.Dispose();
@@ -33,7 +43,7 @@ namespace OOP_1
                 return 1;
             }
         }
-        public Ellipse(int[] coords, Color intclr, Color extclr)
+        public Triangle(int[] coords, Color intclr, Color extclr)
         {
             dots = coords;
             externclr = extclr;
@@ -56,3 +66,4 @@ namespace OOP_1
         }
     }
 }
+

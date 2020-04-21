@@ -18,7 +18,7 @@ namespace OOP_1
             {
                 Graphics graph = picture.CreateGraphics();
                 Pen pen = new Pen(externclr);
-                graph.DrawLine(pen, dots[1], dots[2], dots[3], dots[4]);
+                graph.DrawLine(pen, dots[0], dots[1], dots[2], dots[3]);
                 graph.Dispose();
                 pen.Dispose();
                 return 0;
@@ -33,6 +33,21 @@ namespace OOP_1
         {
             dots = coords;
             externclr = extclr;
+        }
+
+        public override int[] GetBytes()
+        {
+            return dots;
+        }
+
+        public override Color GetIntClr()
+        {
+            return Color.Black;
+        }
+
+        public override Color GetExtClr()
+        {
+            return externclr;
         }
     }
 }
