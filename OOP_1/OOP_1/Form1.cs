@@ -32,23 +32,47 @@ namespace OOP_1
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            int[] dots = new int[16];
-            dots[0] = Convert.ToInt32(textX1.Text);
-            dots[1] = Convert.ToInt32(textY1.Text);
-            dots[2] = Convert.ToInt32(textX2.Text);
-            dots[3] = Convert.ToInt32(textY2.Text);
-            dots[4] = Convert.ToInt32(textX3.Text);
-            dots[5] = Convert.ToInt32(textY3.Text);
-            dots[6] = Convert.ToInt32(textX4.Text);
-            dots[7] = Convert.ToInt32(textY4.Text);
-            dots[8] = Convert.ToInt32(textX5.Text);
-            dots[9] = Convert.ToInt32(textY5.Text);
-            dots[10] = Convert.ToInt32(textX6.Text);
-            dots[11] = Convert.ToInt32(textY6.Text);
-            dots[12] = Convert.ToInt32(textX7.Text);
-            dots[13] = Convert.ToInt32(textY7.Text);
-            dots[14] = Convert.ToInt32(textX8.Text);
-            dots[15] = Convert.ToInt32(textY8.Text);
+            int[] dots = new int[listBox1.Items.Count * 2];
+            String tmp;
+
+            for (int i = 0; i < listBox1.Items.Count; i++)
+            {
+                tmp = listBox1.Items[i].ToString();
+                int j = 0;
+                String num = "";
+                while (String.Compare(tmp[j].ToString(), ",") != 0)
+                {
+                    num += tmp[j].ToString();
+                    j++;
+                }
+
+                try 
+                { 
+                    dots[2 * i] = Convert.ToInt32(num); 
+                } 
+                catch(Exception)
+                {
+                    MessageBox.Show("Неправильное число");
+                }
+
+                num = "";
+                j++;
+
+                while (j < tmp.Length)
+                { 
+                    num += tmp[j].ToString();
+                    j++;
+                }
+
+                try
+                {
+                    dots[2 * i + 1] = Convert.ToInt32(num);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Неправильное число");
+                }
+            }
 
             foreach (constr co in coll)
             {
@@ -58,6 +82,8 @@ namespace OOP_1
                     olist.list.Add((Figura)obj);
                 }
             }
+
+            listBox1.Items.Clear();
         }
 
         private void btnDraw_Click(object sender, EventArgs e)
@@ -162,18 +188,29 @@ namespace OOP_1
 
             FileStream file = new FileStream(path, FileMode.Open, FileAccess.Read);
             StreamReader sw = new StreamReader(file);
-            String tmp, s ="";
+            String tmp, type, s ="";
             char c;
-            int i, num = 0;
-            int[] dots = new int[16];
-            Type mytype;
+            int i, num;
             olist.list.Clear();
             while (!sw.EndOfStream)
             {
-                tmp = sw.ReadLine();
-                mytype = Type.GetType(tmp, false, true);
+                type = sw.ReadLine();
 
                 tmp = sw.ReadLine();
+
+                int amount = 0;
+                for (i = 0; i <= tmp.Length - 1; i++)
+                {
+                    c = tmp[i];
+                    if (String.Compare(c.ToString(), ",") == 0)
+                    {
+                        amount++;
+                    }
+                }
+
+                int[] dots = new int[amount];
+                num = 0;
+
                 for (i = 0; i <= tmp.Length - 1; i++)
                 {
                     c = tmp[i];
@@ -195,12 +232,14 @@ namespace OOP_1
                 tmp = sw.ReadLine();
                 intcolor = Color.FromArgb(Convert.ToInt32(tmp));
 
-                //получаем конструктор
-                System.Reflection.ConstructorInfo ci = mytype.GetConstructor(new Type[] { typeof(int[]), typeof(Color), typeof(Color) });
-
-                //вызываем конструтор
-                object obj = ci.Invoke(new object[] { dots, intcolor, extcolor });
-                olist.list.Add((Figura)obj);
+                foreach (constr co in coll)
+                {
+                    if (String.Compare(co.Name, type.ToString().Remove(0, 6)) == 0)
+                    {
+                        object obj = co.cinf.Invoke(new object[] { dots, intcolor, extcolor });
+                        olist.list.Add((Figura)obj);
+                    }
+                }
             }
         }
 
@@ -239,6 +278,11 @@ namespace OOP_1
             }
 
             openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Add(textBox3.Text);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace OOP_1
             {
                 Graphics graph = picture.CreateGraphics();
                 Pen pen = new Pen(externclr);
+                MessageBox.Show(dots.ToString());
                 graph.DrawLine(pen, dots[0], dots[1], dots[2], dots[3]);
                 graph.Dispose();
                 pen.Dispose();

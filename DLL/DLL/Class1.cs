@@ -15,7 +15,7 @@ using System.IO;
 namespace OOP_1
 {
     [Serializable]
-    public class Triangle : Figura
+    public class Polygon : Figura
     {
         public int[] dots;
         public Color internclr { get; set; }
@@ -24,10 +24,11 @@ namespace OOP_1
         {
             try
             {
-                Point[] arr = new Point[3];
-                arr[0] = new Point(dots[0],dots[1]);
-                arr[1] = new Point(dots[2], dots[3]);
-                arr[2] = new Point(dots[4], dots[5]);
+                Point[] arr = new Point[dots.Length / 2];
+                for (int i = 0; i < dots.Length / 2; i++)
+                {
+                    arr[i] = new Point(dots[2 * i], dots[2 * i + 1]);
+                }
                 Graphics graph = picture.CreateGraphics();
                 Pen pen = new Pen(externclr);
                 SolidBrush brush = new SolidBrush(internclr);
@@ -43,7 +44,7 @@ namespace OOP_1
                 return 1;
             }
         }
-        public Triangle(int[] coords, Color intclr, Color extclr)
+        public Polygon(int[] coords, Color intclr, Color extclr)
         {
             dots = coords;
             externclr = extclr;
