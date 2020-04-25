@@ -32,7 +32,19 @@ namespace OOP_1
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            int[] dots = new int[listBox1.Items.Count * 2];
+            int[] dots; 
+            if (listBox1.Items.Count * 2 >= 4)
+            {
+                dots = new int[listBox1.Items.Count * 2];
+            }
+            else
+            {
+                dots = new int[4];
+                dots[0] = 0;
+                dots[1] = 0;
+                dots[2] = 0;
+                dots[3] = 0;
+            }
             String tmp;
 
             for (int i = 0; i < listBox1.Items.Count; i++)

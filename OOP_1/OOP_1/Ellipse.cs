@@ -21,6 +21,7 @@ namespace OOP_1
                 Graphics graph = picture.CreateGraphics();
                 Pen pen = new Pen(externclr);
                 SolidBrush brush = new SolidBrush(internclr);
+                foreach (int i in dots) { MessageBox.Show(i.ToString()); }
                 graph.DrawEllipse(pen, dots[0], dots[1], dots[2] - dots[0], dots[3] - dots[1]);
                 graph.FillEllipse(brush, dots[0], dots[1], dots[2] - dots[0], dots[3] - dots[1]);
                 graph.Dispose();
