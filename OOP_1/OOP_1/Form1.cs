@@ -48,11 +48,15 @@ namespace OOP_1
 
                 try 
                 { 
-                    dots[2 * i] = Convert.ToInt32(num); 
+                    dots[2 * i] = Convert.ToInt32(num);
+                    if (Convert.ToInt32(num) < 0)
+                    {
+                        MessageBox.Show("Неправильное число");
+                    }
                 } 
                 catch(Exception)
                 {
-                    MessageBox.Show("Неправильное число");
+                    MessageBox.Show("Неправильный формат числа");
                 }
 
                 num = "";
@@ -67,6 +71,10 @@ namespace OOP_1
                 try
                 {
                     dots[2 * i + 1] = Convert.ToInt32(num);
+                    if (Convert.ToInt32(num) < 0)
+                    {
+                        MessageBox.Show("Неправильное число");
+                    }
                 }
                 catch (Exception)
                 {
@@ -283,6 +291,19 @@ namespace OOP_1
         private void button2_Click(object sender, EventArgs e)
         {
             listBox1.Items.Add(textBox3.Text);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (listBox1.Items.Contains(textBox3.Text))
+            {
+                listBox1.Items.Remove(textBox3.Text);
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
         }
     }
 }

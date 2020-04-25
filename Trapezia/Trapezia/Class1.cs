@@ -1,26 +1,43 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 using System.Windows.Forms;
+using System.Collections;
+using System.Reflection;
+using System.IO;
+
 
 namespace OOP_1
 {
-    public class Line : Figura
+    [Serializable]
+    public class Trapezia2dots : Figura
     {
         public int[] dots;
+        public Color internclr { get; set; }
         public Color externclr { get; set; }
         public override int Draw(PictureBox picture)
         {
             try
             {
+                Point[] arr = new Point[4];
+                arr[0] = new Point(dots[0], dots[3]);
+                arr[1] = new Point(dots[2], dots[3]);
+                arr[2] = new Point(dots[2] - (dots[2] + dots[0]) / 4, dots[1]);
+                arr[3] = new Point(dots[0] + (dots[2] - dots[0]) / 4, dots[1]);
+                
                 Graphics graph = picture.CreateGraphics();
                 Pen pen = new Pen(externclr);
-                graph.DrawLine(pen, dots[0], dots[1], dots[2], dots[3]);
+                SolidBrush brush = new SolidBrush(internclr);
+                graph.DrawPolygon(pen, arr);
+                graph.FillPolygon(brush, arr);
                 graph.Dispose();
                 pen.Dispose();
+                brush.Dispose();
                 return 0;
             }
             catch
@@ -28,11 +45,11 @@ namespace OOP_1
                 return 1;
             }
         }
-
-        public Line(int[] coords, Color intclr, Color extclr)
+        public Trapezia2dots(int[] coords, Color intclr, Color extclr)
         {
             dots = coords;
             externclr = extclr;
+            internclr = intclr;
         }
 
         public override int[] GetBytes()
@@ -42,7 +59,7 @@ namespace OOP_1
 
         public override Color GetIntClr()
         {
-            return Color.Black;
+            return internclr;
         }
 
         public override Color GetExtClr()
@@ -51,3 +68,4 @@ namespace OOP_1
         }
     }
 }
+
